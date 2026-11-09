@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { login } from "../api/authApi.js";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -11,7 +11,8 @@ export default function Login() {
   const { logIn } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const destination = location.state?.from?.pathname || "/";
+  const from = location.state?.from;
+  const destination = from ? `${from.pathname}${from.search || ""}${from.hash || ""}` : "/";
 
   async function handleSubmit(event) {
     event.preventDefault();
