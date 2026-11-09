@@ -1,4 +1,4 @@
-import { useLocalStorage } from "./hooks/useLocalStorage.js";
+﻿import { useLocalStorage } from "./hooks/useLocalStorage.js";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -17,9 +17,8 @@ export default function App() {
       <Routes>
         <Route element={<Layout theme={theme} setTheme={setTheme} />}>
           <Route index element={<Home />} />
-          <Route path="products" element={<ProductList />}>
-            <Route path=":id" element={<ProductDetail />} />
-          </Route>
+          <Route path="products" element={<ProductList />} />
+          <Route path="products/:id" element={<ProductDetail />} />
           <Route path="cart" element={
             <ProtectedRoute><Cart /></ProtectedRoute>
           } />
