@@ -49,6 +49,14 @@ export default function ProductList() {
           <option value="">All categories</option>
           {categories.map((item) => <option key={item} value={item}>{item}</option>)}
         </select>
+        <button
+          type="button"
+          className="secondary-button"
+          onClick={() => setSearchParams(new URLSearchParams())}
+          disabled={!query && !category}
+        >
+          Clear filters
+        </button>
       </div>
       {filteredProducts.length === 0
         ? <p>No products match your filters.</p>
@@ -60,3 +68,4 @@ export default function ProductList() {
     </section>
   );
 }
+
