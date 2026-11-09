@@ -5,7 +5,17 @@ const STORAGE_KEY = "shop-cart";
 function readCart() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    return Array.isArray(saved) ? saved : [];
+
+    if (!Array.isArray(saved)) return [];
+
+    return saved.filter((item) =>
+      item &&
+      Number.isFinite(item.id) &&
+      typeof item.title === "string" &&
+      Number.isFinite(item.price) &&
+      Number.isInteger(item.quantity) &&
+      item.quantity > 0
+    );
   } catch {
     return [];
   }
