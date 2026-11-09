@@ -14,15 +14,29 @@ pages — application pages
 
 # State Management
 
-Context manages authentication, while Zustand manages the cart. URL parameters store filters, and localStorage persists the cart and theme.
+1. Why these state solutions?
 
-# Custom Hooks
+Context manages authentication, Zustand manages the cart, URL parameters store filters, useFetch handles product data, and localStorage persists the theme.
 
-useFetch handles data fetching, loading, errors, and request cleanup.
+2. Context vs Zustand
 
-# Routing
+Context is suitable for authentication, while Zustand is better for frequently changing shared cart state and selective subscriptions.
 
-React Router handles navigation, product IDs, and protected routes. Protected routes provide UI-level access control, not real security.
+3. useFetch
+
+It shares fetching logic, loading, errors, and cancellation. Each hook instance has independent state.
+
+4. Product ID
+
+The ID from useParams is a string. It is passed to the API to fetch the selected product.
+
+5. ProtectedRoute
+
+It protects the UI, not the API. Real security requires server-side authentication and authorization.
+
+6. Page refresh
+
+A static server may return 404 for /products/3. It needs to redirect application routes to index.html
 
 # Challenges
 
@@ -30,5 +44,5 @@ The main challenges were API requests, URL-based filters, and persistent cart st
 
 # Demo Login
 
-Email: 240408909@st.biruni.edu.tr
+Email: 240408909@biruni.edu.tr
 Password: demo123456
