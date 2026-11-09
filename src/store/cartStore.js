@@ -1,4 +1,4 @@
-import { create } from "zustand";
+﻿import { create } from "zustand";
 
 const STORAGE_KEY = "shop-cart";
 
@@ -37,11 +37,17 @@ export const useCartStore = create((set) => ({
   removeItem: (id) => set((state) => ({
     items: state.items.filter((item) => item.id !== id)
   })),
-  setQuantity: (id, quantity) => set((state) => ({
-    items: quantity < 1
-      ? state.items.filter((item) => item.id !== id)
-      : state.items.map((item) => item.id === id ? { ...item, quantity } : item)
-  })),
+  setQuantity: (id, quantity) => {
+    if (!Number.isInteger(quantity)) return;
+
+    set((state) => ({
+      items: quantity < 1
+        ? state.items.filter((item) => item.id !== id)
+        : state.items.map((item) =>
+            item.id === id ? { ...item, quantity } : item
+          )
+    }));
+  },
   clear: () => set({ items: [] })
 }));
 
