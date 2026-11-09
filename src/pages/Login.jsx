@@ -35,14 +35,14 @@ export default function Login() {
       <p>Demo password: <strong>demo123456</strong></p>
       <form onSubmit={handleSubmit}>
         <label>Student email
-          <input type="email" value={username}
+          <input type="email" autoComplete="username" value={username}
             onChange={(event) => setUsername(event.target.value)} required />
         </label>
         <label>Password
-          <input type="password" value={password}
+          <input type="password" autoComplete="current-password" value={password}
             onChange={(event) => setPassword(event.target.value)} required />
         </label>
-        {error && <p className="error">{error}</p>}
+        {error && <p className="error" role="alert">{error}</p>}
         <button className="primary-button" disabled={loading}>
           {loading ? "Signing in..." : "Sign in"}
         </button>
@@ -50,3 +50,6 @@ export default function Login() {
     </section>
   );
 }
+
+
+
