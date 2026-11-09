@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+﻿import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useCartStore } from "../store/cartStore.js";
 
@@ -10,7 +10,7 @@ export default function NavBar({ theme, setTheme }) {
 
   return (
     <header className="navbar">
-      <NavLink className="brand" to="/">MiniShop</NavLink>
+      <NavLink className="brand" to="/">ak1wari shop</NavLink>
       <nav>
         <NavLink to="/" end>Home</NavLink>
         <NavLink to="/products">Products</NavLink>
