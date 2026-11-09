@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+﻿import { useEffect, useReducer } from "react";
 
 const initialState = { loading: true, error: null, data: null };
 
@@ -21,15 +21,22 @@ export function useFetch(fetchFunction, dependencies = []) {
   useEffect(() => {
     const controller = new AbortController();
     let active = true;
+
     dispatch({ type: "START" });
 
-    fetchFunction(controller.signal)
+    Promise.resolve()
+      .then(() => fetchFunction(controller.signal))
       .then((data) => {
-        if (active) dispatch({ type: "SUCCESS", payload: data });
+        if (active) {
+          dispatch({ type: "SUCCESS", payload: data });
+        }
       })
       .catch((error) => {
         if (active && error.name !== "AbortError") {
-          dispatch({ type: "ERROR", payload: error.message || "Something went wrong" });
+          dispatch({
+            type: "ERROR",
+            payload: error.message || "Something went wrong"
+          });
         }
       });
 
@@ -37,9 +44,7 @@ export function useFetch(fetchFunction, dependencies = []) {
       active = false;
       controller.abort();
     };
-  // fetchFunction is expected to be memoized by the caller when it uses changing values.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, dependencies);
+  }, [fetchFunction, ...dependencies]);
 
   return state;
 }
