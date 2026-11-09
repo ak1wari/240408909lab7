@@ -1,4 +1,4 @@
-const BASE_URL = "https://dummyjson.com/products";
+﻿const BASE_URL = "https://dummyjson.com/products";
 
 async function readResponse(response) {
   if (!response.ok) {
@@ -27,9 +27,21 @@ async function request(url, signal) {
 
 export async function fetchProducts(signal) {
   const result = await request(`${BASE_URL}?limit=100`, signal);
+
+  if (!Array.isArray(result.products)) {
+    throw new Error("Invalid products response");
+  }
+
   return result.products;
 }
 
 export async function fetchProduct(id, signal) {
-  return request(`${BASE_URL}/${encodeURIComponent(id)}`, signal);
+  const product = await request(`${BASE_URL}/${encodeURIComponent(id)}`, signal);
+
+  if (!product || !Number.isFinite(product.id) || typeof product.title !== "string") {
+    throw new Error("Invalid product response");
+  }
+
+  return product;
 }
+
