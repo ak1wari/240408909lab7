@@ -1,6 +1,18 @@
-import { createContext, useContext, useReducer } from "react";
+﻿import { createContext, useContext, useEffect, useReducer } from "react";
 
 const AuthContext = createContext(null);
+const STORAGE_KEY = "shop-user";
+
+function getInitialState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    return {
+      user: saved && typeof saved.username === "string" ? saved : null
+    };
+  } catch {
+    return { user: null };
+  }
+}
 
 function authReducer(state, action) {
   switch (action.type) {
@@ -14,7 +26,20 @@ function authReducer(state, action) {
 }
 
 export function AuthProvider({ children }) {
-  const [state, dispatch] = useReducer(authReducer, { user: null });
+  const [state, dispatch] = useReducer(authReducer, undefined, getInitialState);
+
+  useEffect(() => {
+    try {
+      if (state.user) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state.user));
+      } else {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    } catch {
+      // Storage may be unavailable.
+    }
+  }, [state.user]);
+
   const value = {
     user: state.user,
     logIn: (user) => dispatch({ type: "LOGGED_IN", payload: user }),
@@ -26,8 +51,10 @@ export function AuthProvider({ children }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
+
   if (!context) {
     throw new Error("useAuth must be used inside an AuthProvider");
   }
+
   return context;
 }
