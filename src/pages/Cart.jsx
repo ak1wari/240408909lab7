@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 import { useCartStore } from "../store/cartStore.js";
 
 export default function Cart() {
@@ -7,6 +7,14 @@ export default function Cart() {
   const setQuantity = useCartStore((state) => state.setQuantity);
   const clear = useCartStore((state) => state.clear);
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  function handleQuantityChange(id, value) {
+    const quantity = Number(value);
+
+    if (Number.isInteger(quantity) && quantity >= 1) {
+      setQuantity(id, quantity);
+    }
+  }
 
   if (items.length === 0) {
     return <section><h1>Your cart</h1><p>Your cart is empty.</p>
@@ -21,8 +29,8 @@ export default function Cart() {
           <article className="cart-item" key={item.id}>
             <div><strong>{item.title}</strong><p>${item.price.toFixed(2)} each</p></div>
             <label>Quantity
-              <input type="number" min="1" value={item.quantity}
-                onChange={(event) => setQuantity(item.id, Number(event.target.value))} />
+              <input type="number" min="1" step="1" value={item.quantity}
+                onChange={(event) => handleQuantityChange(item.id, event.target.value)} />
             </label>
             <strong>${(item.price * item.quantity).toFixed(2)}</strong>
             <button className="link-button" onClick={() => removeItem(item.id)}>Remove</button>
@@ -34,3 +42,5 @@ export default function Cart() {
     </section>
   );
 }
+
+
