@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+﻿import { useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { fetchProducts } from "../api/productsApi.js";
 import { useFetch } from "../hooks/useFetch.js";
@@ -31,8 +31,8 @@ export default function ProductList() {
     setSearchParams(next);
   }
 
-  if (loading) return <p>Loading products...</p>;
-  if (error) return <p className="error">Could not load products: {error}</p>;
+  if (loading) return <p role="status" aria-live="polite">Loading products...</p>;
+  if (error) return <p className="error" role="alert">Could not load products: {error}</p>;
 
   return (
     <section>
